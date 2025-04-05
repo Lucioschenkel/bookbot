@@ -1,16 +1,6 @@
-def count_words(file_contents):
-    return len(file_contents.split())
+import sys
+from stats import count_words, count_character_occurrence
 
-def count_character_occurrence(file_contents):
-    char_map = {}
-
-    for c in file_contents.lower():
-        if c not in char_map:
-            char_map[c] = 0
-
-        char_map[c] += 1
-
-    return char_map
 
 def main():
     alphabet = {
@@ -39,10 +29,15 @@ def main():
         "w",
         "x",
         "y",
-        "z"
+        "z",
     }
 
-    with open("books/frankenstein.txt") as f:
+    if len(sys.argv) < 2:
+        print("Usage: python3 main.py <path_to_book>")
+        sys.exit(1)
+
+    book_path = sys.argv[1]
+    with open(book_path) as f:
         file_contents = f.read()
         word_count = count_words(file_contents)
         char_map = count_character_occurrence(file_contents)
@@ -52,9 +47,9 @@ def main():
 
         for key in char_map:
             if key in alphabet:
-                print(f"The '{key}' character was found {char_map[key]} times")
-
+                print(f"{key}: {char_map[key]}")
 
         print("--- End report ---")
+
 
 main()
